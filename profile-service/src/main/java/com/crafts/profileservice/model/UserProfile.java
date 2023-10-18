@@ -3,6 +3,7 @@ package com.crafts.profileservice.model;
 import java.util.Date;
 import java.util.Map;
 
+import lombok.AllArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,16 +17,20 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserProfile {
 
 	@Id
 	private String userId;
 	private BusinessProfile businessProfile;
-	private String consolidatedStatus;
+	private ValidationStatusEnum consolidatedStatus;
 	private Map<String, ProductValidation> productValidations;
 
 }
-
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 class BusinessProfile {
 
 	private String companyName;
@@ -37,7 +42,10 @@ class BusinessProfile {
 	private String website;
 
 }
-
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 class Address {
 
 	private String line1;
@@ -48,14 +56,20 @@ class Address {
 	private String country;
 
 }
-
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 class TaxIdentifiers {
 
-	private String PAN;
-	private String EIN;
+	private String pan;
+	private String ein;
 
 }
-
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 class ProductValidation {
 
 	private ValidationStatusEnum status;
