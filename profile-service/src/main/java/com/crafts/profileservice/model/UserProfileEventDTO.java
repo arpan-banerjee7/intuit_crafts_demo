@@ -12,6 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 public class UserProfileEventDTO {
     private String userId;
-    private String profileId;
-    private List<Subscription> subscriptions;
+    private List<String> subscriptions;
 }

@@ -1,14 +1,14 @@
 package com.crafts.profileservice.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-class Subscription {
+@NoArgsConstructor
+public class UserProductRequest {
+    private String userId;
     private String productId;
 }
+

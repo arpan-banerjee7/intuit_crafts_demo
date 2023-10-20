@@ -1,38 +1,56 @@
 package com.crafts.profileservice.service.impl;
 
+import com.crafts.profileservice.entity.UserProfile;
 import com.crafts.profileservice.model.UserProfileEventDTO;
 import com.crafts.profileservice.producer.UserProfileKakfaProducer;
+import com.crafts.profileservice.repository.UserProfileRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.crafts.profileservice.model.UserProfile;
-import com.crafts.profileservice.repository.UserProfileRepository;
-import com.crafts.profileservice.service.UserProfileService;
-
 @Service
-public class UserProfileServiceImpl implements UserProfileService {
+public class UserProfileServiceImpl implements com.crafts.profileservice.service.UserProfileService {
 
     @Autowired
     private UserProfileRepository userProfileRepository;
     @Autowired
     private UserProfileKakfaProducer userProfileKakfaProducer;
 
-    public UserProfile createProfile(UserProfile userProfile) {
-        //UserProfile savedUser = userProfileRepository.save(userProfile);
+    @Override
+    public UserProfile saveUserProfile(UserProfile userProfile) {
+        UserProfile savedUser= new UserProfile();
+        //userProfileRepository.save(userProfile);
         // Extract the required fields
         UserProfileEventDTO userProfileDTO = new UserProfileEventDTO();
         userProfileDTO.setUserId(userProfile.getUserId());
         userProfileDTO.setSubscriptions(userProfile.getSubscriptions());
-
-        // Serialize the UserProfileDTO to a JSON string
         String jsonMessage = convertToJson(userProfileDTO);
-        userProfileKakfaProducer.send(jsonMessage, "USER_PROFILE_CREATED");
-        return userProfile;
+        //userProfileKakfaProducer.send(jsonMessage, "USER_PROFILE_CREATED");
+        return savedUser;
     }
 
-    // Helper method to convert an object to a JSON string
+    @Override
+    public UserProfile getUserProfileById(String userId) {
+        return userProfileRepository.getUserProfileById(userId);
+    }
+
+    @Override
+    public String delete(String userId) {
+        return userProfileRepository.delete(userId);
+    }
+
+    @Override
+    public String update(String userId, UserProfile userProfile) {
+        return userProfileRepository.update(userId, userProfile);
+    }
+
+//    public String getStatus(String id, String key) {
+//        UserProfiles userProfilesEO = userProfileRepository.findStatusByIdAndValidationKey(id, key);
+//        UserProfile userProfileDTO = userProfileMapper.entityToDto(userProfilesEO);
+//        return userProfileDTO.get;
+//    }
+
     private String convertToJson(Object object) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
