@@ -22,15 +22,15 @@ public class DynamoDBConfiguration {
                 .standard()
                 .withEndpointConfiguration(
                         new AwsClientBuilder.EndpointConfiguration( // need to pass it through config file
-                                "dynamodb.us-east-1.amazonaws.com",
-                                "us-east-1"
+                                "",
+                                ""
                         )
                 )
                 .withCredentials(
                         new AWSStaticCredentialsProvider(
                                 new BasicAWSCredentials(  // need to pass it through secure method
-                                        "test",
-                                        "test"
+                                        "",
+                                        ""
                                 )
                         )
                 )
