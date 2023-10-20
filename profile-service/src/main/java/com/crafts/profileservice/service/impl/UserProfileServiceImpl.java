@@ -20,17 +20,16 @@ public class UserProfileServiceImpl implements UserProfileService {
     private UserProfileKakfaProducer userProfileKakfaProducer;
 
     public UserProfile createProfile(UserProfile userProfile) {
-        UserProfile savedUser = userProfileRepository.save(userProfile);
-
+        //UserProfile savedUser = userProfileRepository.save(userProfile);
         // Extract the required fields
         UserProfileEventDTO userProfileDTO = new UserProfileEventDTO();
-        userProfileDTO.setUserId(savedUser.getUserId());
-        userProfileDTO.setSubscriptions(savedUser.getSubscriptions());
+        userProfileDTO.setUserId(userProfile.getUserId());
+        userProfileDTO.setSubscriptions(userProfile.getSubscriptions());
 
         // Serialize the UserProfileDTO to a JSON string
         String jsonMessage = convertToJson(userProfileDTO);
         userProfileKakfaProducer.send(jsonMessage, "USER_PROFILE_CREATED");
-        return savedUser;
+        return userProfile;
     }
 
     // Helper method to convert an object to a JSON string
