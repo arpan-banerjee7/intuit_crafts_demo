@@ -2,7 +2,7 @@ package com.crafts.profileservice.service.impl;
 
 import com.crafts.profileservice.entity.UserProfile;
 import com.crafts.profileservice.model.UserProfileEventDTO;
-import com.crafts.profileservice.producer.UserProfileKakfaProducer;
+import com.crafts.profileservice.producer.UserProfileKafkaProducer;
 import com.crafts.profileservice.repository.UserProfileRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,7 +15,7 @@ public class UserProfileServiceImpl implements com.crafts.profileservice.service
     @Autowired
     private UserProfileRepository userProfileRepository;
     @Autowired
-    private UserProfileKakfaProducer userProfileKakfaProducer;
+    private UserProfileKafkaProducer userProfileKafkaProducer;
 
     @Override
     public UserProfile saveUserProfile(UserProfile userProfile) {
@@ -26,7 +26,7 @@ public class UserProfileServiceImpl implements com.crafts.profileservice.service
         userProfileDTO.setUserId(userProfile.getUserId());
         userProfileDTO.setSubscriptions(userProfile.getSubscriptions());
         String jsonMessage = convertToJson(userProfileDTO);
-        //userProfileKakfaProducer.send(jsonMessage, "USER_PROFILE_CREATED");
+        userProfileKafkaProducer.send(jsonMessage, "USER_PROFILE_CREATED");
         return savedUser;
     }
 
